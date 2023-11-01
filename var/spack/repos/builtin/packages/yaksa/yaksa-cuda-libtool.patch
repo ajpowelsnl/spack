@@ -1,0 +1,28 @@
+# Patch added for spack-manager gpu container
+From 989132c63d3d5d17082fb56295da2ff85c507f8d Mon Sep 17 00:00:00 2001
+From: Hui Zhou <hzhou321@anl.gov>
+Date: Tue, 31 Jan 2023 11:30:57 -0600
+Subject: [PATCH] backend: use ./libtool in cudalt.sh
+
+User may not have libtool in the system paths. Use the configure
+generated libtool script in stead.
+
+Signed-off-by: Hui Zhou <hzhou321@anl.gov>
+---
+ src/backend/cuda/cudalt.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/backend/cuda/cudalt.sh b/src/backend/cuda/cudalt.sh
+index 13fd57ae..36f4cc62 100755
+--- a/src/backend/cuda/cudalt.sh
++++ b/src/backend/cuda/cudalt.sh
+@@ -41,7 +41,8 @@ CMD="${@} -o $NPIC_FILEPATH"
+ if test "$verbose" ; then echo "$CMD" ; fi
+ eval "$CMD"
+ 
+-LIBTOOL_VERSION=$(libtool --version | head -n 1)
++# use the genrated libtool at top_srcdir
++LIBTOOL_VERSION=$(./libtool --version | head -n 1)
+ 
+ cat > $LO_FILEPATH <<EOF
+ # $LO_FILEPATH - a libtool object file
