@@ -34,6 +34,8 @@ class Yaksa(AutotoolsPackage, CudaPackage, ROCmPackage):
     depends_on("m4", type="build")
     depends_on("python@3:", type="build")
 
+    patch("yaksa-cuda-libtool.patch", when="+cuda")
+
     def autoreconf(self, spec, prefix):
         sh = which("sh")
         sh("autogen.sh")
